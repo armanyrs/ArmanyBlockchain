@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blockchain Simulator - Modern UI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">BlockSim</div>
+      <div class="nav-links">
+        <button id="tab-home" class="active">Home</button>
+        <button id="tab-hash">Hash</button>
+        <button id="tab-block">Block</button>
+        <button id="tab-chain">Blockchain</button>
+        <button id="tab-ecc">ECC</button>
+        <button id="tab-consensus">Konsensus</button>
+        <button id="tab-about">About Me</button>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="page-home" class="page active">
+        <div class="hero-section">
+          <h1>Selamat Datang di Blockchain Simulator</h1>
+          <p class="subtitle">
+            Pelajari konsep inti teknologi blockchain secara interaktif.
+          </p>
+          <div id="datetime" class="badge-time"></div>
+        </div>
+
+        <h3 class="section-title">Modul Pembelajaran</h3>
+        <div class="dashboard-grid">
+          <div
+            class="card"
+            onclick="document.getElementById('tab-hash').click()"
+          >
+            <div class="icon">#</div>
+            <h3>Hashing</h3>
+            <p>Simulasi SHA-256 hash generator.</p>
+          </div>
+          <div
+            class="card"
+            onclick="document.getElementById('tab-block').click()"
+          >
+            <div class="icon">📦</div>
+            <h3>Single Block</h3>
+            <p>Konsep mining dan nonce pada satu blok.</p>
+          </div>
+          <div
+            class="card"
+            onclick="document.getElementById('tab-chain').click()"
+          >
+            <div class="icon">🔗</div>
+            <h3>Blockchain</h3>
+            <p>Rantai blok yang saling terhubung secara kriptografi.</p>
+          </div>
+          <div
+            class="card"
+            onclick="document.getElementById('tab-ecc').click()"
+          >
+            <div class="icon">✍️</div>
+            <h3>ECC Signature</h3>
+            <p>Tanda tangan digital (Public/Private Key).</p>
+          </div>
+          <div
+            class="card"
+            onclick="document.getElementById('tab-consensus').click()"
+          >
+            <div class="icon">🤝</div>
+            <h3>Konsensus</h3>
+            <p>Simulasi jaringan terdistribusi & konsensus mayoritas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-hash" class="page">
+        <div class="page-header">
+          <h2>Hash Generator</h2>
+          <p>Ubah teks menjadi string SHA-256 yang unik.</p>
+        </div>
+        <div class="content-box">
+          <label for="hash-input">Input Data</label>
+          <textarea
+            id="hash-input"
+            rows="4"
+            placeholder="Ketik sesuatu di sini..."
+          ></textarea>
+          <label>Output SHA-256</label>
+          <div id="hash-output" class="output-box"></div>
+        </div>
+      </div>
+
+      <div id="page-block" class="page">
+        <div class="page-header">
+          <h2>Single Block Mining</h2>
+        </div>
+        <div class="block-card">
+          <div class="form-group">
+            <label>Block #</label>
+            <input id="block-number" type="number" value="1" />
+          </div>
+          <div class="form-group">
+            <label>Nonce</label>
+            <input id="block-nonce" type="text" value="0" />
+          </div>
+          <div class="form-group">
+            <label>Data</label>
+            <textarea id="block-data" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Timestamp</label>
+            <input id="block-timestamp" type="text" readonly />
+          </div>
+          <div class="form-group">
+            <label>Hash</label>
+            <div id="block-hash" class="output-box"></div>
+          </div>
+
+          <div class="mining-controls">
+            <button id="btn-mine" class="btn-primary">⛏️ Mine Block</button>
+            <select id="speed-control">
+              <option value="1">Speed: Normal</option>
+              <option value="10">Speed: 10x</option>
+              <option value="50">Speed: 50x</option>
+            </select>
+          </div>
+          <div id="mining-status" class="status-text"></div>
+        </div>
+      </div>
+
+      <div id="page-chain" class="page">
+        <div class="page-header">
+          <h2>Blockchain Ledger</h2>
+          <button id="btn-add-block" class="btn-secondary">
+            + Tambah Block
+          </button>
+        </div>
+        <div id="blockchain" class="chain-scroller"></div>
+      </div>
+
+      <div id="page-ecc" class="page">
+        <div class="page-header">
+          <h2>Digital Signature (ECC)</h2>
+        </div>
+        <div class="content-box">
+          <button id="btn-generate-key" class="btn-secondary">
+            Generate Key Pair
+          </button>
+
+          <div class="row">
+            <div class="col">
+              <label>Public Key</label>
+              <textarea
+                id="ecc-public"
+                rows="2"
+                readonly
+                class="code-font"
+              ></textarea>
+            </div>
+            <div class="col">
+              <label>Private Key</label>
+              <textarea
+                id="ecc-private"
+                rows="2"
+                readonly
+                class="code-font"
+              ></textarea>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <label>Pesan</label>
+          <textarea
+            id="ecc-message"
+            rows="2"
+            placeholder="Tulis pesan untuk ditandatangani..."
+          ></textarea>
+
+          <button id="btn-sign" class="btn-primary">Sign Message</button>
+
+          <label>Signature (Hex)</label>
+          <textarea
+            id="ecc-signature"
+            rows="2"
+            readonly
+            class="code-font"
+          ></textarea>
+
+          <hr class="divider" />
+
+          <button id="btn-verify" class="btn-outline">Verify Signature</button>
+          <div id="ecc-verify-result" class="status-result"></div>
+        </div>
+      </div>
+
+      <div id="page-consensus" class="page">
+        <div class="page-header">
+          <h2>Simulasi Konsensus</h2>
+        </div>
+
+        <div class="wallets-grid">
+          <div class="wallet-card user-a">
+            <h3>User A</h3>
+            <div class="balance">💰 <span id="saldo-A">100</span></div>
+            <div class="tx-form">
+              <select id="receiver-A">
+                <option value="B">ke User B</option>
+                <option value="C">ke User C</option>
+              </select>
+              <input
+                id="amount-A"
+                type="number"
+                min="1"
+                value="10"
+                placeholder="Jml"
+              />
+              <button id="send-A">Kirim</button>
+            </div>
+          </div>
+
+          <div class="wallet-card user-b">
+            <h3>User B</h3>
+            <div class="balance">💰 <span id="saldo-B">100</span></div>
+            <div class="tx-form">
+              <select id="receiver-B">
+                <option value="A">ke User A</option>
+                <option value="C">ke User C</option>
+              </select>
+              <input
+                id="amount-B"
+                type="number"
+                min="1"
+                value="10"
+                placeholder="Jml"
+              />
+              <button id="send-B">Kirim</button>
+            </div>
+          </div>
+
+          <div class="wallet-card user-c">
+            <h3>User C</h3>
+            <div class="balance">💰 <span id="saldo-C">100</span></div>
+            <div class="tx-form">
+              <select id="receiver-C">
+                <option value="A">ke User A</option>
+                <option value="B">ke User B</option>
+              </select>
+              <input
+                id="amount-C"
+                type="number"
+                min="1"
+                value="10"
+                placeholder="Jml"
+              />
+              <button id="send-C">Kirim</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mempool-section">
+          <label>Mempool (Transaksi Pending)</label>
+          <textarea
+            id="mempool"
+            rows="3"
+            readonly
+            placeholder="Belum ada transaksi..."
+          ></textarea>
+          <div class="action-buttons">
+            <button id="btn-mine-all" class="btn-primary">
+              ⛏️ Mine Transaksi
+            </button>
+            <button id="btn-verify-consensus" class="btn-outline">
+              🔍 Verifikasi
+            </button>
+            <button id="btn-consensus" class="btn-secondary">
+              ⚖️ Konsensus Mayoritas
+            </button>
+          </div>
+        </div>
+
+        <div class="chains-display">
+          <h4>Distributed Ledger</h4>
+          <div class="chain-wrapper">
+            <span class="label-node">Node A</span>
+            <div id="chain-A" class="chain-row"></div>
+          </div>
+          <div class="chain-wrapper">
+            <span class="label-node">Node B</span>
+            <div id="chain-B" class="chain-row"></div>
+          </div>
+          <div class="chain-wrapper">
+            <span class="label-node">Node C</span>
+            <div id="chain-C" class="chain-row"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-about" class="page">
+        <div class="about-card">
+          <div class="profile-section">
+            <img
+              src="./foto.png"
+              alt="Armany Rizqullah Saputra"
+              class="profile-img"
+            />
+            <h2>Armany Rizqullah Saputra</h2>
+            <p class="nrp">NRP: 5323600029</p>
+          </div>
+          <div class="info-section">
+            <div class="info-row">
+              <span>Kelas</span>
+              <strong>TRM-A</strong>
+            </div>
+            <div class="info-row">
+              <span>Mata Kuliah</span>
+              <strong>Workshop Teknologi Blockchain</strong>
+            </div>
+            <div class="info-row">
+              <span>Dosen</span>
+              <strong>Dr., Ir. Muhammad Agus Zainuddin, ST., MT</strong>
+            </div>
+            <div class="info-row">
+              <span>Kampus</span>
+              <strong>Politeknik Elektronika Negeri Surabaya</strong>
+            </div>
+            <div class="info-row">
+              <span>Email</span>
+              <a href="mailto:armanyrs@met.student.pens.ac.id"
+                >armanyrs@met.student.pens.ac.id</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      &copy; 2025 Armany Rizqullah. Made with ❤️ in Surabaya.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elliptic/6.5.4/elliptic.min.js"></script>
+    <script src="app4.js"></script>
+  </body>
+</html>
