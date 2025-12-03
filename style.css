@@ -508,7 +508,7 @@ button {
     grid-template-columns: 1fr;
   }
   .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
   .education-item {
     flex-direction: column;
